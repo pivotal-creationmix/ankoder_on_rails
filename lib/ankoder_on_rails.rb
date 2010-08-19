@@ -15,7 +15,7 @@ module Ankoder
   class SessionNotFound < RuntimeError; end
 
   class Configuration
-    cattr_accessor :private_key, :access_key, :auth_user, :auth_password, :host, :port
+    cattr_accessor :private_key, :access_key, :auth_user, :auth_password, :host, :port, :recipe_id, :profiles
   end
 
   def self.load_config
@@ -28,6 +28,8 @@ module Ankoder
       Configuration::auth_password = auth_config["auth_password"]
       Configuration::host          = auth_config["host"] || "api.ankoder.com"
       Configuration::port          = auth_config["port"] || "80"
+      Configuration::recipe_id     = auth_config["recipe_id"]
+      Configuration::profiles      = auth_config["profiles"]
     rescue
       raise $!, " Ankoder: problems trying to load '\"#{RAILS_ROOT}/config/ankoder.yml\")}'"
       raise
