@@ -15,21 +15,23 @@ module Ankoder
   class SessionNotFound < RuntimeError; end
 
   class Configuration
-    cattr_accessor :private_key, :access_key, :auth_user, :auth_password, :host, :port, :recipe_id, :profiles
+    cattr_accessor :private_key, :access_key, :auth_user, :auth_password, :host, :port, :video_recipe_id, :video_profiles, :audio_recipe_id, :audio_profiles
   end
 
   def self.load_config
     begin
       globe_config = YAML::load(ERB.new((IO.read("#{RAILS_ROOT}/config/ankoder.yml"))).result)
       auth_config = globe_config["#{RAILS_ENV}"]
-      Configuration::private_key   = auth_config["private_key"] 
-      Configuration::access_key    = auth_config["access_key"] 
-      Configuration::auth_user     = auth_config["auth_user"]
-      Configuration::auth_password = auth_config["auth_password"]
-      Configuration::host          = auth_config["host"] || "api.ankoder.com"
-      Configuration::port          = auth_config["port"] || "80"
-      Configuration::recipe_id     = auth_config["recipe_id"]
-      Configuration::profiles      = auth_config["profiles"]
+      Configuration::private_key         = auth_config["private_key"]
+      Configuration::access_key          = auth_config["access_key"]
+      Configuration::auth_user           = auth_config["auth_user"]
+      Configuration::auth_password       = auth_config["auth_password"]
+      Configuration::host                = auth_config["host"] || "api.ankoder.com"
+      Configuration::port                = auth_config["port"] || "80"
+      Configuration::video_recipe_id     = auth_config["video_recipe_id"]
+      Configuration::video_profiles      = auth_config["video_profiles"]
+      Configuration::audio_recipe_id     = auth_config["audio_recipe_id"]
+      Configuration::audio_profiles      = auth_config["audio_profiles"]
     rescue
       raise $!, " Ankoder: problems trying to load '\"#{RAILS_ROOT}/config/ankoder.yml\")}'"
       raise
